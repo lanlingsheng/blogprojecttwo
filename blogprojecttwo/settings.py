@@ -25,7 +25,7 @@ SECRET_KEY = 'oixdhh66!q#=92pt=_@^1fh07lfsxx%u1+h-m=bkij4-fi_n_@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.rubic.win']
 
 
 # Application definition
