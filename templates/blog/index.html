@@ -13,8 +13,8 @@
                     <span class="post-date"><a href="#"><time class="entry-date"
                                                               datetime="{{ post.created_time }}">{{ post.created_time }}</time></a></span>
                     <span class="post-author"><a href="#">{{ post.author }}</a></span>
-                    <span class="comments-link"><a href="#"></a></span>
-                    <span class="views-count"><a href="#">{{ post.views }}</a></span>
+                    <span class="comments-link"><a href="{{ post.get_absolute_url }}">{{ post.comment_set.count }} 评论</a></span>
+                    <span class="views-count"><a href="{{ post.get_absolute_url }}">{{ post.views }} 阅读</a></span>
                 </div>
             </header>
             <div class="entry-content clearfix">
@@ -32,21 +32,6 @@
         <a href="#">上一页</a>
         <span class="current">第 6 页 / 共 11 页</span>
         <a href="#">下一页</a>
-    </div>
-    -->
-<!--
-    <div class="pagination">
-        <ul>
-            <li><a href="">1</a></li>
-            <li><a href="">...</a></li>
-            <li><a href="">4</a></li>
-            <li><a href="">5</a></li>
-            <li class="current"><a href="">6</a></li>
-            <li><a href="">7</a></li>
-            <li><a href="">8</a></li>
-            <li><a href="">...</a></li>
-            <li><a href="">11</a></li>
-        </ul>
     </div>
     -->
     {% if is_paginated %}
