@@ -1,4 +1,7 @@
-from markdown import markdown
+from django.utils.text import slugify
+
+import markdown
+from markdown.extensions.toc import TocExtension
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView
@@ -14,7 +17,7 @@ class IndexView(ListView):
     paginate_by = 5
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = super(IndexView, self).get_context_data(**kwargs)
         paginator = context.get('paginator')
         page = context.get('page_obj')
         is_paginated = context.get('is_paginated')
@@ -77,18 +80,19 @@ class PostDetailView(DetailView):
         # 之所以需要先调用父类的 get 方法，是因为只有当 get 方法被调用后，
         # 才有 self.object 属性，其值为 Post 模型实例，即被访问的文章 post
         response = super(PostDetailView, self).get(request, *args, **kwargs)
-        self.object.increate_views()
+        self.object.increase_views()
         return response
 
     def get_object(self, queryset=None):
         # 覆写 get_object 方法的目的是因为需要对 post 的 body 值进行渲染
         post = super(PostDetailView, self).get_object(queryset=None)
-        post.body = markdown.markdown(post.body,
-                                      extensions=[
-                                          'markdown.extensions.extra',
-                                          'markdown.extensions.codehilite',
-                                          'markdown.extensions.toc',
-                                      ])
+        md = markdown.Markdown(extensions=[
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',
+            TocExtension(slugify=slugify),
+        ])
+        post.body = md.convert(post.body)
+        post.toc = md.toc
         return post
 
     def get_context_data(self, **kwargs):
@@ -127,7 +131,7 @@ def index(request):
 def detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.increase_views()
-    post.body = markdown(post.body, extensions=[
+    post.body = markdown.markdown(post.body, extensions=[
         'markdown.extensions.extra',
         'markdown.extensions.codehilite',
         'markdown.extensions.toc',
