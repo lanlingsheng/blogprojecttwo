@@ -78,33 +78,13 @@
             <aside class="col-md-4">
                 {% block toc %}
                 {% endblock toc %}
-                <div class="widget widget-content">
-                    <h3 class="widget-title">文章目录</h3>
-                    <ul>
-                        <li>
-                            <a href="#">教程特点</a>
-                        </li>
-                        <li>
-                            <a href="#">谁适合这个教程</a>
-                        </li>
-                        <li>
-                            <a href="#">在线预览</a>
-                        </li>
-                        <li>
-                            <a href="#">资源列表</a>
-                        </li>
-                        <li>
-                            <a href="#">获取帮助</a>
-                        </li>
-                    </ul>
-                </div>
                 <div class="widget widget-recent-posts">
                     <h3 class="widget-title">最新文章</h3>
                     {% get_recent_posts as recent_post_list %}
                     <ul>
                         {% for post in recent_post_list %}
                         <li>
-                            <a href="{{ post.get_absolute_ulr }}">{{ post.title }}</a>
+                            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
                         </li>
                         {% empty %}
                         暂无文章！
