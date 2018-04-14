@@ -50,3 +50,6 @@ class Post(models.Model):
             ])
             self.excerpt = strip_tags(md.convert(self.body))[:54]
         super(Post, self).save(*args, **kwargs)
+
+    class Meta:
+        ordering = ['-created_time']
